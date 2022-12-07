@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Osmos", "Osmos\Osmos.csproj", "{8E6C319B-3750-40F9-816E-39C3713801D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E6C319B-3750-40F9-816E-39C3713801D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6C319B-3750-40F9-816E-39C3713801D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6C319B-3750-40F9-816E-39C3713801D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6C319B-3750-40F9-816E-39C3713801D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {044A8541-09A0-40D2-A5A8-68B1588F4730}
+	EndGlobalSection
+EndGlobal
