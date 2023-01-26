@@ -2,8 +2,8 @@
 {
     internal class Circle
     {
-        private int x;
-        private int y;
+        public int X;
+        public int Y;
 
         // area = Pi * radius^2
         private double radius;
@@ -14,24 +14,56 @@
 
         private Brush brush = Brushes.Green;
 
-        public Circle()
+        public Circle(int x, int y, int radius, int speed, int angle)
         {
-            x = 100;
-            y = 200;
-            radius = 150;
-            speed = 100;
-            angle = 100;
+            this.X = x;
+            this.Y = y;
+            this.radius = radius;
+            this.speed = speed;
+            this.angle = angle;
         }
 
         public void Draw(Graphics graphics)
         {
-            graphics.FillEllipse(brush, x, y, (int)radius * 2, (int)radius * 2);
+            graphics.FillEllipse(brush, X, Y, (int)radius * 2, (int)radius * 2);
         }
 
-        public void Update()
+        public void Update(List<Circle>circles)
         {
-            x += (int)(speed * Math.Sin(angle)* Math.PI / 180);
-            y += (int)(speed * Math.Cos(angle) * Math.PI / 180);
+            X += (int)(speed * Math.Cos((angle)* Math.PI / 180));
+            Y += (int)(speed * Math.Sin((angle) * Math.PI / 180));
+
+            foreach (Circle circle in circles)
+            {
+                if (circle == this)
+                    continue;
+
+                int distance= GetDistanceToCircle(circle);
+
+                if (distance<circle.radius+radius)
+                {
+                    int deltaRadius = distance - (int)(radius + circle.radius);
+
+                    if (circle.radius > radius)
+                    {
+                        circle.radius += deltaRadius;
+                        radius -= deltaRadius;
+                    }
+                    else
+                    {
+                        radius += deltaRadius;
+                        circle.radius -= deltaRadius;
+                    }
+                }
+            }
+
         }
+
+        public int GetDistanceToCircle(Circle circle)
+        {
+            return (int)Math.Sqrt(Math.Pow(X - circle.X, 2) +
+                              Math.Pow(Y - circle.Y, 2));
+        }
+
     }
 }
