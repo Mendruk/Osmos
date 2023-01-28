@@ -13,10 +13,8 @@ namespace Osmos
                      ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
 
-            game = new Game();
+            game = new Game(Width,Height);
         }
-
-
 
         private void timer_Tick(object sender, EventArgs e)
         {
