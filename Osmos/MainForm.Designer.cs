@@ -35,7 +35,7 @@
             // timer
             // 
             this.timer.Enabled = true;
-            this.timer.Interval = 10;
+            this.timer.Interval = 20;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // MainForm

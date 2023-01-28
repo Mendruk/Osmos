@@ -18,13 +18,14 @@ namespace Osmos
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            Refresh();
             game.Update();
             Refresh();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             game.Draw(e.Graphics);
         }
     }
