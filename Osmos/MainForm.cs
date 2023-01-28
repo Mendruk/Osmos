@@ -28,5 +28,10 @@ namespace Osmos
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             game.Draw(e.Graphics);
         }
+
+        private void MainForm_MouseClick(object sender, MouseEventArgs e)
+        {
+            game.PlayerShot(e.X,e.Y);
+        }
     }
 }

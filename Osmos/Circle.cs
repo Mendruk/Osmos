@@ -3,10 +3,10 @@
 internal class Circle
 {
     private readonly Font font = new(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
-    private readonly Brush brush = Brushes.Green;
+    public Brush brush = Brushes.GreenYellow;
 
-    private readonly int gameFiledWidth;
-    private readonly int gameFiledHeight;
+    protected readonly int gameFiledWidth;
+    protected readonly int gameFiledHeight;
 
     public double X;
     public double Y;
@@ -33,12 +33,10 @@ internal class Circle
     public void Draw(Graphics graphics)
     {
         graphics.FillEllipse(brush, (int)X - (int)Radius, (int)Y - (int)Radius, (int)Radius * 2, (int)Radius * 2);
-        graphics.DrawEllipse(Pens.Black, (int)X - (int)Radius, (int)Y - (int)Radius, (int)Radius * 2,
-            (int)Radius * 2);
-        graphics.DrawString(((int)Area).ToString(), font, Brushes.Black, (int)X, (int)Y);
     }
 
-    public void Update(List<Circle> circles, List<Circle> circlesToDelete)
+    //todo
+    public void Update()
     {
         X += VelocityX;
         Y += VelocityY;
@@ -48,21 +46,6 @@ internal class Circle
 
         if (Y - Radius < 0 || Y + Radius >= gameFiledHeight)
             VelocityY = -VelocityY;
-
-        foreach (Circle circle in circles)
-        {
-            if (circle == this)
-                continue;
-
-            if (GetDistanceToCircle(circle) >= Radius + circle.Radius)
-                continue;
-            double deltaRadius = Radius + circle.Radius - GetDistanceToCircle(circle);
-
-            if (circle.Radius < Radius)
-                MergeCircles(circle, this, deltaRadius, circlesToDelete);
-            else
-                MergeCircles(this, circle, deltaRadius, circlesToDelete);
-        }
 
         if (X - Radius < 0)
             X = Radius;
@@ -82,6 +65,11 @@ internal class Circle
         Radius = Math.Sqrt(Math.Pow(Radius, 2) + deltaArea / Math.PI);
     }
 
+    public void RemoveArea(double deltaArea)
+    {
+        Radius = Math.Sqrt(Math.Pow(Radius, 2) - deltaArea / Math.PI);
+    }
+
     public void RemoveRadius(double deltaRadius)
     {
         Radius -= deltaRadius;
@@ -96,30 +84,5 @@ internal class Circle
     public double GetDistanceToCircle(Circle circle)
     {
         return Math.Sqrt(Math.Pow(X - circle.X, 2) + Math.Pow(Y - circle.Y, 2));
-    }
-
-    private void MergeCircles(Circle smallerCircle, Circle largerCircle, double deltaRadius,
-        List<Circle> circlesToDelete)
-    {
-        double areaStart = smallerCircle.Area;
-        double impulseXStart = smallerCircle.ImpulseX;
-        double impulseYStart = smallerCircle.ImpulseY;
-
-        smallerCircle.RemoveRadius(deltaRadius);
-
-        if (smallerCircle.Radius <= 0)
-        {
-            largerCircle.AddArea(areaStart);
-            largerCircle.AddImpulse((int)impulseXStart, (int)impulseYStart);
-            circlesToDelete.Add(smallerCircle);
-
-            return;
-        }
-
-        double deltaArea = areaStart - smallerCircle.Area;
-
-        largerCircle.AddArea(deltaArea);
-        largerCircle.AddImpulse((int)(impulseXStart - smallerCircle.ImpulseX),
-            (int)(impulseYStart - smallerCircle.ImpulseY));
     }
 }
