@@ -2,8 +2,7 @@
 
 internal class Circle
 {
-    private readonly Font font = new(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
-    public Brush brush = Brushes.GreenYellow;
+    public Brush brush = Brushes.Blue;
 
     protected readonly int gameFiledWidth;
     protected readonly int gameFiledHeight;

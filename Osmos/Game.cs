@@ -13,9 +13,9 @@
             player = new PlayerCircle(gameFieldWidth / 2, gameFieldHeight / 2, 20, 0, 0, gameFieldWidth, gameFieldHeight);
             circles = new() { player };
 
-            for (int i = 0; i <= 4000; i++)
+            for (int i = 0; i <= 100; i++)
             {
-                circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(2, 5),
+                circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(2, 20),
                     random.Next(-2, 3), random.Next(-2, 3), gameFieldWidth, gameFieldHeight));
             }
         }
@@ -56,9 +56,9 @@
                     continue;
 
                 if (circles[i].Area <= player.Area)
-                    circles[i].brush = Brushes.GreenYellow;
+                    circles[i].brush = Brushes.Blue;
                 else
-                    circles[i].brush = Brushes.OrangeRed;
+                    circles[i].brush = Brushes.Red;
             }
         }
 
