@@ -1,37 +1,49 @@
 using System.Drawing.Drawing2D;
 
-namespace Osmos
+namespace Osmos;
+
+public partial class MainForm : Form
 {
-    public partial class MainForm : Form
+    private readonly Game game;
+
+    public MainForm()
     {
-        private Game game;
-        public MainForm()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            SetStyle(ControlStyles.DoubleBuffer |
-                     ControlStyles.AllPaintingInWmPaint |
-                     ControlStyles.UserPaint, true);
+        SetStyle(ControlStyles.DoubleBuffer |
+                 ControlStyles.AllPaintingInWmPaint |
+                 ControlStyles.UserPaint, true);
 
-            game = new Game(Width,Height);
-        }
+        game = new Game(pictureGameField.Width, pictureGameField.Height);
+    }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            Refresh();
-            game.Update();
-            Refresh();
-        }
+    private void timer_Tick(object sender, EventArgs e)
+    {
+        game.Update();
+        TotalAreaLabel.Text = "Total area: " +(int)game.TotalArea;
+        Refresh();
+    }
 
-        private void MainForm_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-            game.Draw(e.Graphics);
-        }
+    private void reflectionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        game.GameMode = GameMode.Reflection;
+        GameModeLabel.Text = GameMode.Reflection.ToString();
+    }
 
-        private void MainForm_MouseClick(object sender, MouseEventArgs e)
-        {
-            game.PlayerShot(e.X,e.Y);
-        }
+    private void teleportationToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        game.GameMode = GameMode.Teleportation;
+        GameModeLabel.Text = GameMode.Teleportation.ToString();
+    }
+
+    private void pictureGameField_Paint(object sender, PaintEventArgs e)
+    {
+        e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+        game.Draw(e.Graphics);
+    }
+
+    private void pictureGameField_MouseClick(object sender, MouseEventArgs e)
+    {
+        game.PlayerShot(e.X, e.Y);
     }
 }

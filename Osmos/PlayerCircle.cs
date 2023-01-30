@@ -1,34 +1,34 @@
-﻿
-namespace Osmos
+﻿namespace Osmos;
+
+internal class PlayerCircle : Circle
 {
-    internal class PlayerCircle:Circle
+    private readonly int divisionFactor = 10;
+
+    public PlayerCircle(int x, int y, int radius, double velocityX, double velocityY, int gameFieldWidth,
+        int gameFieldHeight) : base(x, y, radius, velocityX, velocityY, gameFieldWidth, gameFieldHeight)
     {
-        //todo rename
-        private int Num = 10;
-        public PlayerCircle(int x, int y, int radius, double velocityX, double velocityY, int gameFieldWidth, int gameFieldHeight) : base(x, y, radius, velocityX, velocityY, gameFieldWidth, gameFieldHeight)
-        {
-            brush = Brushes.Green;
-        }
+        brush = Brushes.LawnGreen;
+    }
 
-        public void CreateCircle(int mouseX, int mouseY, List<Circle>circles)
-        {
-            double Angle = Math.Atan((Y - mouseY) / (X - mouseX));
+    public void CreateCircle(int mouseX, int mouseY, List<Circle> circles)
+    {
+        double angle = Math.Atan((Y - mouseY) / (X - mouseX));
 
-            if (X - mouseX >= 0)
-                Angle += Math.PI;
+        if (X - mouseX >= 0)
+            angle += Math.PI;
 
-            Circle createdCircle = new((int)X, (int)Y, 1, Math.Cos(Angle)*Num, Math.Sin(Angle) * Num, gameFiledWidth,
-                gameFiledHeight);
+        Circle createdCircle = new((int)X, (int)Y, 0, Math.Cos(angle) * divisionFactor,
+            Math.Sin(angle) * divisionFactor, gameFiledWidth,
+            gameFiledHeight);
 
-            createdCircle.AddArea(Area / Num);
-            RemoveArea(createdCircle.Area);
+        createdCircle.AddArea(Area / divisionFactor);
+        RemoveArea(createdCircle.Area);
 
-            createdCircle.X += Math.Cos(Angle) * (Radius + createdCircle.Radius);
-            createdCircle.Y += Math.Sin(Angle) * (Radius + createdCircle.Radius);
+        createdCircle.X += Math.Cos(angle) * (1.5*Radius + createdCircle.Radius);
+        createdCircle.Y += Math.Sin(angle) * (1.5*Radius + createdCircle.Radius);
 
-            AddImpulse(-(int)createdCircle.ImpulseX, -(int)createdCircle.ImpulseY);
+        AddImpulse(-(int)createdCircle.ImpulseX, -(int)createdCircle.ImpulseY);
 
-            circles.Add(createdCircle);
-        }
+        circles.Add(createdCircle);
     }
 }

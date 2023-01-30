@@ -1,93 +1,97 @@
-﻿namespace Osmos
+﻿namespace Osmos;
+
+internal class Game
 {
-    internal class Game
+    public GameMode GameMode = GameMode.Reflection;
+    public double TotalArea;
+
+    private readonly Random random = new();
+    private readonly PlayerCircle player;
+    private readonly List<Circle> circles;
+
+    public Game(int gameFieldWidth, int gameFieldHeight)
     {
-        private readonly Random random = new();
-        private readonly Font font = new(FontFamily.GenericSansSerif, 20, FontStyle.Bold);
-        private PlayerCircle player;
+        player = new PlayerCircle(gameFieldWidth / 2, gameFieldHeight / 2, 40, 0, 0, gameFieldWidth, gameFieldHeight);
 
-        private List<Circle> circles;
+        circles = new List<Circle> { player };
 
-        public Game(int gameFieldWidth, int gameFieldHeight)
+        for (int i = 0; i <= 10; i++)
+            circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(20, 30),
+                random.Next(-1, 2), random.Next(-1, 2), gameFieldWidth, gameFieldHeight));
+    }
+
+    public void Draw(Graphics graphics)
+    {
+        TotalArea = 0;
+
+        foreach (Circle circle in circles)
         {
-            player = new PlayerCircle(gameFieldWidth / 2, gameFieldHeight / 2, 20, 0, 0, gameFieldWidth, gameFieldHeight);
-            circles = new() { player };
-
-            for (int i = 0; i <= 100; i++)
-            {
-                circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(2, 20),
-                    random.Next(-2, 3), random.Next(-2, 3), gameFieldWidth, gameFieldHeight));
-            }
+            circle.Draw(graphics);
+            TotalArea += circle.Area;
         }
+    }
 
-        public void Draw(Graphics graphics)
+    public void Update()
+    {
+        for (int i = 0; i < circles.Count; i++)
         {
-            double totalArea = 0;
+            circles[i].Update();
 
-            foreach (Circle circle in circles)
+            for (int j = i + 1; j < circles.Count; j++)
             {
-                circle.Draw(graphics);
-                totalArea += circle.Area;
-            }
-
-            graphics.DrawString("Total area: " + (int)totalArea, font, Brushes.Black, 50, 50);
-        }
-
-        public void Update()
-        {
-            for (int i = 0; i < circles.Count; i++)
-            {
-                circles[i].Update();
-
-                for (int j = i + 1; j < circles.Count; j++)
-                {
-                    if (circles[i].GetDistanceToCircle(circles[j]) >= circles[i].Radius + circles[j].Radius)
-                        continue;
-                    double deltaRadius = circles[i].Radius + circles[j].Radius -
-                                         circles[i].GetDistanceToCircle(circles[j]);
-
-                    if (circles[j].Radius < circles[i].Radius)
-                        MergeCircles(circles[j], circles[i], deltaRadius);
-                    else
-                        MergeCircles(circles[i], circles[j], deltaRadius);
-                }
-
-                if(circles[i]==player)
+                if (circles[i].GetDistanceToCircle(circles[j]) >= circles[i].Radius + circles[j].Radius)
                     continue;
+                double deltaRadius = circles[i].Radius + circles[j].Radius -
+                                     circles[i].GetDistanceToCircle(circles[j]);
 
-                if (circles[i].Area <= player.Area)
-                    circles[i].brush = Brushes.Blue;
+                if (circles[j].Radius < circles[i].Radius)
+                    MergeCircles(circles[j], circles[i], deltaRadius);
                 else
-                    circles[i].brush = Brushes.Red;
-            }
-        }
-
-        private void MergeCircles(Circle smallerCircle, Circle largerCircle, double deltaRadius)
-        {
-            double areaStart = smallerCircle.Area;
-            double impulseXStart = smallerCircle.ImpulseX;
-            double impulseYStart = smallerCircle.ImpulseY;
-
-            smallerCircle.RemoveRadius(deltaRadius);
-
-            if (smallerCircle.Radius <= 0)
-            {
-                largerCircle.AddArea(areaStart);
-                largerCircle.AddImpulse((int)impulseXStart, (int)impulseYStart);
-                circles.Remove(smallerCircle);
-                return;
+                    MergeCircles(circles[i], circles[j], deltaRadius);
             }
 
-            double deltaArea = areaStart - smallerCircle.Area;
+            //todo
+            if (GameMode == GameMode.Reflection)
+                circles[i].behaviorAtBorder = circles[i].ReflectionBehavior;
 
-            largerCircle.AddArea(deltaArea);
-            largerCircle.AddImpulse((int)(impulseXStart - smallerCircle.ImpulseX),
-                (int)(impulseYStart - smallerCircle.ImpulseY));
+            if (GameMode == GameMode.Teleportation)
+                circles[i].behaviorAtBorder = circles[i].TeleportationBehavior;
+
+            if (circles[i] == player)
+                continue;
+
+            if (circles[i].Area <= player.Area)
+                circles[i].brush = Brushes.Blue;
+            else
+                circles[i].brush = Brushes.Red;
         }
+    }
 
-        public void PlayerShot(int mouseX, int mouseY)
+    private void MergeCircles(Circle smallerCircle, Circle largerCircle, double deltaRadius)
+    {
+        double areaStart = smallerCircle.Area;
+        double impulseXStart = smallerCircle.ImpulseX;
+        double impulseYStart = smallerCircle.ImpulseY;
+
+        smallerCircle.RemoveRadius(deltaRadius);
+
+        if (smallerCircle.Radius <= 0)
         {
-            player.CreateCircle(mouseX,mouseY,circles);
+            largerCircle.AddArea(areaStart);
+            largerCircle.AddImpulse((int)impulseXStart, (int)impulseYStart);
+            circles.Remove(smallerCircle);
+            return;
         }
+
+        double deltaArea = areaStart - smallerCircle.Area;
+
+        largerCircle.AddArea(deltaArea);
+        largerCircle.AddImpulse((int)(impulseXStart - smallerCircle.ImpulseX),
+            (int)(impulseYStart - smallerCircle.ImpulseY));
+    }
+
+    public void PlayerShot(int mouseX, int mouseY)
+    {
+        player.CreateCircle(mouseX, mouseY, circles);
     }
 }
