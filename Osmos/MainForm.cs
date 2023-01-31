@@ -20,7 +20,8 @@ public partial class MainForm : Form
     private void timer_Tick(object sender, EventArgs e)
     {
         game.Update();
-        TotalAreaLabel.Text = "Total area: " +(int)game.TotalArea;
+        totalAreaLabel.Text = "Total area: " +(int)game.TotalArea;
+        totalImpulseLabel.Text = "Total Impulse " + (int)game.TotalImpulse;
         Refresh();
     }
 
@@ -45,5 +46,23 @@ public partial class MainForm : Form
     private void pictureGameField_MouseClick(object sender, MouseEventArgs e)
     {
         game.PlayerShot(e.X, e.Y);
+    }
+
+    private void standartToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        game.StartStandartGame();
+        timer.Interval = 20;
+    }
+
+    private void stressToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        game.StartStressGame();
+        timer.Interval = 20;
+    }
+
+    private void collisionCheckToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        game.StartCheckCollisionGame();
+        timer.Interval = 1000;
     }
 }

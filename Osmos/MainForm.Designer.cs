@@ -37,8 +37,13 @@
             this.teleportationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GameModeLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.TotalAreaLabel = new System.Windows.Forms.ToolStripLabel();
+            this.totalAreaLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.totalImpulseLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.standartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.collisionCheckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureGameField = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureGameField)).BeginInit();
@@ -47,22 +52,25 @@
             // timer
             // 
             this.timer.Enabled = true;
-            this.timer.Interval = 25;
+            this.timer.Interval = 20;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // toolStrip1
             // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
             this.GameModeLabel,
             this.toolStripSeparator1,
-            this.TotalAreaLabel,
-            this.toolStripSeparator2});
+            this.totalAreaLabel,
+            this.toolStripSeparator2,
+            this.totalImpulseLabel,
+            this.toolStripDropDownButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1180, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1349, 27);
             this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Text = "toolStrip";
             // 
             // toolStripDropDownButton1
             // 
@@ -76,20 +84,20 @@
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(85, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(105, 24);
             this.toolStripDropDownButton1.Text = "Game mode";
             // 
             // reflectionToolStripMenuItem
             // 
             this.reflectionToolStripMenuItem.Name = "reflectionToolStripMenuItem";
-            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.reflectionToolStripMenuItem.Text = "Reflection";
             this.reflectionToolStripMenuItem.Click += new System.EventHandler(this.reflectionToolStripMenuItem_Click);
             // 
             // teleportationToolStripMenuItem
             // 
             this.teleportationToolStripMenuItem.Name = "teleportationToolStripMenuItem";
-            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.teleportationToolStripMenuItem.Text = "Teleportation";
             this.teleportationToolStripMenuItem.Click += new System.EventHandler(this.teleportationToolStripMenuItem_Click);
             // 
@@ -97,33 +105,77 @@
             // 
             this.GameModeLabel.ForeColor = System.Drawing.Color.Black;
             this.GameModeLabel.Name = "GameModeLabel";
-            this.GameModeLabel.Size = new System.Drawing.Size(60, 22);
+            this.GameModeLabel.Size = new System.Drawing.Size(76, 24);
             this.GameModeLabel.Text = "Reflection";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
-            // TotalAreaLabel
+            // totalAreaLabel
             // 
-            this.TotalAreaLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.TotalAreaLabel.ForeColor = System.Drawing.Color.Black;
-            this.TotalAreaLabel.Name = "TotalAreaLabel";
-            this.TotalAreaLabel.Size = new System.Drawing.Size(102, 22);
-            this.TotalAreaLabel.Text = "Total area 0000000";
+            this.totalAreaLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.totalAreaLabel.ForeColor = System.Drawing.Color.Black;
+            this.totalAreaLabel.Name = "totalAreaLabel";
+            this.totalAreaLabel.Size = new System.Drawing.Size(135, 24);
+            this.totalAreaLabel.Text = "Total area 0000000";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // totalImpulseLabel
+            // 
+            this.totalImpulseLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.totalImpulseLabel.ForeColor = System.Drawing.Color.Black;
+            this.totalImpulseLabel.Name = "totalImpulseLabel";
+            this.totalImpulseLabel.Size = new System.Drawing.Size(153, 24);
+            this.totalImpulseLabel.Text = "Total Impulse: 000000";
+            // 
+            // toolStripDropDownButton2
+            // 
+            this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.standartToolStripMenuItem,
+            this.stressToolStripMenuItem,
+            this.collisionCheckToolStripMenuItem});
+            this.toolStripDropDownButton2.ForeColor = System.Drawing.Color.Black;
+            this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
+            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(95, 24);
+            this.toolStripDropDownButton2.Text = "Game case";
+            // 
+            // standartToolStripMenuItem
+            // 
+            this.standartToolStripMenuItem.Name = "standartToolStripMenuItem";
+            this.standartToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.standartToolStripMenuItem.Text = "Standart";
+            this.standartToolStripMenuItem.Click += new System.EventHandler(this.standartToolStripMenuItem_Click);
+            // 
+            // stressToolStripMenuItem
+            // 
+            this.stressToolStripMenuItem.Name = "stressToolStripMenuItem";
+            this.stressToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.stressToolStripMenuItem.Text = "Stress";
+            this.stressToolStripMenuItem.Click += new System.EventHandler(this.stressToolStripMenuItem_Click);
+            // 
+            // collisionCheckToolStripMenuItem
+            // 
+            this.collisionCheckToolStripMenuItem.Name = "collisionCheckToolStripMenuItem";
+            this.collisionCheckToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.collisionCheckToolStripMenuItem.Text = "Collision check";
+            this.collisionCheckToolStripMenuItem.Click += new System.EventHandler(this.collisionCheckToolStripMenuItem_Click);
             // 
             // pictureGameField
             // 
             this.pictureGameField.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.pictureGameField.Location = new System.Drawing.Point(0, 20);
+            this.pictureGameField.Location = new System.Drawing.Point(0, 27);
+            this.pictureGameField.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureGameField.Name = "pictureGameField";
-            this.pictureGameField.Size = new System.Drawing.Size(1183, 696);
+            this.pictureGameField.Size = new System.Drawing.Size(1352, 928);
             this.pictureGameField.TabIndex = 1;
             this.pictureGameField.TabStop = false;
             this.pictureGameField.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureGameField_Paint);
@@ -131,15 +183,14 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(1180, 717);
+            this.ClientSize = new System.Drawing.Size(1349, 956);
             this.Controls.Add(this.pictureGameField);
             this.Controls.Add(this.toolStrip1);
             this.ForeColor = System.Drawing.Color.Lavender;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
@@ -162,8 +213,13 @@
         private ToolStripMenuItem teleportationToolStripMenuItem;
         private PictureBox pictureGameField;
         private ToolStripLabel GameModeLabel;
-        private ToolStripLabel TotalAreaLabel;
+        private ToolStripLabel totalAreaLabel;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripSeparator toolStripSeparator2;
+        private ToolStripLabel totalImpulseLabel;
+        private ToolStripDropDownButton toolStripDropDownButton2;
+        private ToolStripMenuItem standartToolStripMenuItem;
+        private ToolStripMenuItem stressToolStripMenuItem;
+        private ToolStripMenuItem collisionCheckToolStripMenuItem;
     }
 }

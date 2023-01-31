@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms.Design.Behavior;
-
-namespace Osmos;
+﻿namespace Osmos;
 
 internal class Circle
 {
