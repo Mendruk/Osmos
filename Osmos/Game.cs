@@ -50,13 +50,6 @@ internal class Game
                     MergeCircles(circles[i], circles[j], deltaRadius);
             }
 
-            //todo
-            if (GameMode == GameMode.Reflection)
-                circles[i].behaviorAtBorder = circles[i].ReflectionBehavior;
-
-            if (GameMode == GameMode.Teleportation)
-                circles[i].behaviorAtBorder = circles[i].TeleportationBehavior;
-
             if (circles[i] == player)
                 continue;
 
@@ -93,5 +86,25 @@ internal class Game
     public void PlayerShot(int mouseX, int mouseY)
     {
         player.CreateCircle(mouseX, mouseY, circles);
+    }
+
+    public void SetGameMode(GameMode gameMode)
+    {
+        GameMode = gameMode;
+
+        foreach (Circle circle in circles)
+        {
+            switch (gameMode)
+            {
+                case GameMode.Reflection:
+                    circle.behaviorAtBorder = circle.ReflectionBehavior;
+                    break;
+                case GameMode.Teleportation:
+                    circle.behaviorAtBorder = circle.TeleportationBehavior;
+                    break;
+                default://todo
+                    break;
+            }
+        }
     }
 }

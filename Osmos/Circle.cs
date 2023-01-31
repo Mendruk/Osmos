@@ -75,6 +75,8 @@ internal class Circle
         return Math.Sqrt(Math.Pow(X - circle.X, 2) + Math.Pow(Y - circle.Y, 2));
     }
 
+
+    //todo maybe make static
     public void ReflectionBehavior()
     {
         if (X - Radius < 0 || X + Radius >= gameFiledWidth)

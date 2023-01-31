@@ -26,13 +26,13 @@ public partial class MainForm : Form
 
     private void reflectionToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.GameMode = GameMode.Reflection;
+        game.SetGameMode(GameMode.Reflection);
         GameModeLabel.Text = GameMode.Reflection.ToString();
     }
 
     private void teleportationToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.GameMode = GameMode.Teleportation;
+        game.SetGameMode(GameMode.Teleportation);
         GameModeLabel.Text = GameMode.Teleportation.ToString();
     }
 
