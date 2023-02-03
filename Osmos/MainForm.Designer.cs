@@ -40,10 +40,12 @@
             this.totalAreaLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.totalImpulseLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.standartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collisionCheckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.pictureGameField = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureGameField)).BeginInit();
@@ -65,7 +67,9 @@
             this.totalAreaLabel,
             this.toolStripSeparator2,
             this.totalImpulseLabel,
-            this.toolStripDropDownButton2});
+            this.toolStripSeparator3,
+            this.toolStripDropDownButton2,
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1349, 27);
@@ -74,7 +78,7 @@
             // 
             // toolStripDropDownButton1
             // 
-            this.toolStripDropDownButton1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.toolStripDropDownButton1.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripDropDownButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -90,14 +94,14 @@
             // reflectionToolStripMenuItem
             // 
             this.reflectionToolStripMenuItem.Name = "reflectionToolStripMenuItem";
-            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.reflectionToolStripMenuItem.Text = "Reflection";
             this.reflectionToolStripMenuItem.Click += new System.EventHandler(this.reflectionToolStripMenuItem_Click);
             // 
             // teleportationToolStripMenuItem
             // 
             this.teleportationToolStripMenuItem.Name = "teleportationToolStripMenuItem";
-            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.teleportationToolStripMenuItem.Text = "Teleportation";
             this.teleportationToolStripMenuItem.Click += new System.EventHandler(this.teleportationToolStripMenuItem_Click);
             // 
@@ -134,6 +138,11 @@
             this.totalImpulseLabel.Size = new System.Drawing.Size(153, 24);
             this.totalImpulseLabel.Text = "Total Impulse: 000000";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
+            // 
             // toolStripDropDownButton2
             // 
             this.toolStripDropDownButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -169,17 +178,24 @@
             this.collisionCheckToolStripMenuItem.Text = "Collision check";
             this.collisionCheckToolStripMenuItem.Click += new System.EventHandler(this.collisionCheckToolStripMenuItem_Click);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
+            // 
             // pictureGameField
             // 
             this.pictureGameField.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.pictureGameField.Location = new System.Drawing.Point(0, 27);
+            this.pictureGameField.Location = new System.Drawing.Point(0, 31);
             this.pictureGameField.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureGameField.Name = "pictureGameField";
             this.pictureGameField.Size = new System.Drawing.Size(1352, 928);
             this.pictureGameField.TabIndex = 1;
             this.pictureGameField.TabStop = false;
             this.pictureGameField.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureGameField_Paint);
-            this.pictureGameField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureGameField_MouseClick);
+            this.pictureGameField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureGameField_MouseDown);
+            this.pictureGameField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureGameField_MouseMove);
+            this.pictureGameField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureGameField_MouseUp);
             // 
             // MainForm
             // 
@@ -221,5 +237,7 @@
         private ToolStripMenuItem standartToolStripMenuItem;
         private ToolStripMenuItem stressToolStripMenuItem;
         private ToolStripMenuItem collisionCheckToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripSeparator toolStripSeparator4;
     }
 }

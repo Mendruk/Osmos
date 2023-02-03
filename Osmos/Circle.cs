@@ -1,4 +1,6 @@
-﻿namespace Osmos;
+﻿using System.Drawing.Drawing2D;
+
+namespace Osmos;
 
 internal class Circle
 {
@@ -13,7 +15,7 @@ internal class Circle
     public double VelocityX;
     public double VelocityY;
 
-    public Action behaviorAtBorder;
+    public Action BehaviorAtBorder;
 
     public double Area => Math.PI * Math.Pow(Radius, 2);
     public double ImpulseX => VelocityX * Area;
@@ -31,7 +33,7 @@ internal class Circle
         VelocityX = velocityX;
         VelocityY = velocityY;
 
-        behaviorAtBorder = ReflectionBehavior;
+        BehaviorAtBorder = ReflectionBehavior;
     }
 
     public void Draw(Graphics graphics)
@@ -44,7 +46,7 @@ internal class Circle
         X += VelocityX;
         Y += VelocityY;
 
-        behaviorAtBorder?.Invoke();
+        BehaviorAtBorder?.Invoke();
     }
 
     public void AddArea(double deltaArea)
@@ -57,10 +59,6 @@ internal class Circle
         Radius = Math.Sqrt(Math.Pow(Radius, 2) - deltaArea / Math.PI);
     }
 
-    public void RemoveRadius(double deltaRadius)
-    {
-        Radius -= deltaRadius;
-    }
 
     public void AddImpulse(int impulseX, int impulseY)
     {

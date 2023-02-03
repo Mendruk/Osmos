@@ -27,13 +27,13 @@ public partial class MainForm : Form
 
     private void reflectionToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.SetGameMode(GameMode.Reflection);
+        game.SetGameModeAllCircles(GameMode.Reflection);
         GameModeLabel.Text = GameMode.Reflection.ToString();
     }
 
     private void teleportationToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.SetGameMode(GameMode.Teleportation);
+        game.SetGameModeAllCircles(GameMode.Teleportation);
         GameModeLabel.Text = GameMode.Teleportation.ToString();
     }
 
@@ -41,11 +41,6 @@ public partial class MainForm : Form
     {
         e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
         game.Draw(e.Graphics);
-    }
-
-    private void pictureGameField_MouseClick(object sender, MouseEventArgs e)
-    {
-        game.PlayerShot(e.X, e.Y);
     }
 
     private void standartToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,5 +59,23 @@ public partial class MainForm : Form
     {
         game.StartCheckCollisionGame();
         timer.Interval = 1000;
+    }
+
+
+
+    private void pictureGameField_MouseDown(object sender, MouseEventArgs e)
+    {
+        game.IsPlayerJet = true;
+    }
+
+    private void pictureGameField_MouseUp(object sender, MouseEventArgs e)
+    {
+        game.IsPlayerJet = false;
+    }
+
+    private void pictureGameField_MouseMove(object sender, MouseEventArgs e)
+    {
+        game.MousePoint.X = e.X;
+        game.MousePoint.Y = e.Y;
     }
 }
