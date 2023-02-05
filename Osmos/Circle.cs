@@ -5,10 +5,6 @@ namespace Osmos;
 internal class Circle
 {
     public Brush brush = Brushes.Blue;
-
-    protected readonly int gameFiledWidth;
-    protected readonly int gameFiledHeight;
-
     public double X;
     public double Y;
     public double Radius;
@@ -16,6 +12,9 @@ internal class Circle
     public double VelocityY;
 
     public Action BehaviorAtBorder;
+
+    protected readonly int gameFiledWidth;
+    protected readonly int gameFiledHeight;
 
     public double Area => Math.PI * Math.Pow(Radius, 2);
     public double ImpulseX => VelocityX * Area;
@@ -59,7 +58,6 @@ internal class Circle
         Radius = Math.Sqrt(Math.Pow(Radius, 2) - deltaArea / Math.PI);
     }
 
-
     public void AddImpulse(int impulseX, int impulseY)
     {
         VelocityX = (ImpulseX + impulseX) / Area;
@@ -71,8 +69,6 @@ internal class Circle
         return Math.Sqrt(Math.Pow(X - circle.X, 2) + Math.Pow(Y - circle.Y, 2));
     }
 
-
-    //todo maybe make static
     public void ReflectionBehavior()
     {
         if (X - Radius < 0 || X + Radius >= gameFiledWidth)

@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Osmos;
+﻿namespace Osmos;
 
 internal class Game
 {
@@ -8,18 +6,18 @@ internal class Game
     public double TotalImpulse;
     public double TotalArea;
 
-    public bool IsPlayerJet;
     public Point MousePoint;
-    private readonly int reloadingTime = 10;
-    private int currentReloadingTime;
-
-    private Action<Graphics> drawMessageTextAction;
-    private readonly Font font = new(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
+    public bool IsPlayerJet;
+    
     private Circle player;
     private List<Circle> circles;
+    private Action<Graphics> drawMessageTextAction;
+    private int currentReloadingTime;
+    private readonly int reloadingTime = 10;
+    private readonly Font font = new(FontFamily.GenericSansSerif, 80, FontStyle.Bold);
+    private readonly StringFormat format = new();
     private readonly Random random = new();
     private readonly int divisionFactor = 10;
-
     private readonly int gameFieldWidth;
     private readonly int gameFieldHeight;
 
@@ -27,18 +25,19 @@ internal class Game
     {
         this.gameFieldWidth = gameFieldWidth;
         this.gameFieldHeight = gameFieldHeight;
+
+        drawMessageTextAction = DrawEmptyText;
         StartStandartGame();
+
+        format.Alignment = StringAlignment.Center;
     }
 
     public void Draw(Graphics graphics)
     {
         foreach (Circle circle in circles)
-        {
             circle.Draw(graphics);
-        }
 
-        if (drawMessageTextAction != null)
-            drawMessageTextAction(graphics);
+        drawMessageTextAction?.Invoke(graphics);  
     }
 
     public void Update()
@@ -61,7 +60,6 @@ internal class Game
             TotalImpulse += circle.ImpulseX;
             TotalImpulse += circle.ImpulseY;
         }
-            
 
         for (int i = 0; i < circles.Count; i++)
         {
@@ -84,7 +82,7 @@ internal class Game
                 if (player.Area >= TotalArea / 2)
                     drawMessageTextAction = DrawWinningText;
                 else
-                    drawMessageTextAction = null;
+                    drawMessageTextAction = DrawEmptyText;
                 
                 continue;
             }
@@ -197,7 +195,7 @@ internal class Game
         };
         circles = new List<Circle> { player };
 
-        for (int i = 0; i <= 10000; i++)
+        for (int i = 0; i <= 30000; i++)
             circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(1, 2),
                 random.Next(-1, 2), random.Next(-1, 2), gameFieldWidth, gameFieldHeight));
 
@@ -214,7 +212,7 @@ internal class Game
         circles = new List<Circle>
         {
             player,
-            new Circle(gameFieldWidth * 2 / 3, gameFieldHeight / 2, 215, -10, 0, gameFieldWidth, gameFieldHeight)
+            new (gameFieldWidth * 2 / 3, gameFieldHeight / 2, 215, -10, 0, gameFieldWidth, gameFieldHeight)
         };
 
         SetGameModeAllCircles(GameMode);
@@ -222,11 +220,16 @@ internal class Game
 
     private void DrawWinningText(Graphics graphics)
     {
-        graphics.DrawString("YOU WIN!", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2);
+        graphics.DrawString("Victory", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2, format);
     }
 
     private void DrawLosingText(Graphics graphics)
     {
-        graphics.DrawString("YOU Lose!", font, Brushes.Red, gameFieldWidth / 2, gameFieldHeight / 2);
+        graphics.DrawString("Defeat", font, Brushes.DarkRed, gameFieldWidth / 2, gameFieldHeight / 2, format);
+    }
+
+    private void DrawEmptyText(Graphics graphics)
+    {
+        graphics.DrawString(" ", font, Brushes.Red, gameFieldWidth / 2, gameFieldHeight / 2, format);
     }
 }

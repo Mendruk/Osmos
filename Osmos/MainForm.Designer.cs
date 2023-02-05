@@ -162,7 +162,7 @@
             this.standartToolStripMenuItem.Name = "standartToolStripMenuItem";
             this.standartToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
             this.standartToolStripMenuItem.Text = "Standart";
-            this.standartToolStripMenuItem.Click += new System.EventHandler(this.standartToolStripMenuItem_Click);
+            this.standartToolStripMenuItem.Click += new System.EventHandler(this.standardToolStripMenuItem_Click);
             // 
             // stressToolStripMenuItem
             // 
