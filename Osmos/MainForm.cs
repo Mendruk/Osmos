@@ -45,7 +45,7 @@ public partial class MainForm : Form
 
     private void standardToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.StartStandartGame();
+        game.StartStandardGame();
         timer.Interval = 20;
     }
 

@@ -27,7 +27,7 @@ internal class Game
         this.gameFieldHeight = gameFieldHeight;
 
         drawMessageTextAction = DrawEmptyText;
-        StartStandartGame();
+        StartStandardGame();
 
         format.Alignment = StringAlignment.Center;
     }
@@ -171,7 +171,7 @@ internal class Game
         circles.Add(createdCircle);
     }
 
-    public void StartStandartGame()
+    public void StartStandardGame()
     {
         player = new Circle(gameFieldWidth / 2, gameFieldHeight / 2, 40, 0, 0, gameFieldWidth, gameFieldHeight)
         {
