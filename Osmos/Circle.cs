@@ -11,8 +11,6 @@ internal class Circle
     public double VelocityX;
     public double VelocityY;
 
-    public Action BehaviorAtBorder;
-
     protected readonly int gameFiledWidth;
     protected readonly int gameFiledHeight;
 
@@ -32,7 +30,6 @@ internal class Circle
         VelocityX = velocityX;
         VelocityY = velocityY;
 
-        BehaviorAtBorder = ReflectionBehavior;
     }
 
     public void Draw(Graphics graphics)
@@ -40,12 +37,22 @@ internal class Circle
         graphics.FillEllipse(brush, (int)X - (int)Radius, (int)Y - (int)Radius, (int)Radius * 2, (int)Radius * 2);
     }
 
-    public void Update()
+    public void Update(GameMode gameMode)
     {
         X += VelocityX;
         Y += VelocityY;
 
-        BehaviorAtBorder?.Invoke();
+        switch (gameMode)
+        {
+            case GameMode.Reflection:
+                ReflectionBehavior();
+                break;
+            case GameMode.Teleportation:
+                TeleportationBehavior();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(gameMode), gameMode, null);
+        }
     }
 
     public void AddArea(double deltaArea)

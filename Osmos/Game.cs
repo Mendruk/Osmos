@@ -8,10 +8,10 @@ internal class Game
 
     public Point MousePoint;
     public bool IsPlayerJet;
-    
+
+    private GameState gameState;
     private Circle player;
     private List<Circle> circles;
-    private Action<Graphics> drawMessageTextAction;
     private int currentReloadingTime;
     private readonly int reloadingTime = 10;
     private readonly Font font = new(FontFamily.GenericSansSerif, 80, FontStyle.Bold);
@@ -26,7 +26,6 @@ internal class Game
         this.gameFieldWidth = gameFieldWidth;
         this.gameFieldHeight = gameFieldHeight;
 
-        drawMessageTextAction = DrawEmptyText;
         StartStandardGame();
 
         format.Alignment = StringAlignment.Center;
@@ -37,7 +36,19 @@ internal class Game
         foreach (Circle circle in circles)
             circle.Draw(graphics);
 
-        drawMessageTextAction?.Invoke(graphics);  
+        switch (gameState)
+        {
+            case GameState.Play:
+                break;
+            case GameState.Victory:
+                graphics.DrawString("Victory", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2, format);
+                break;
+            case GameState.Defeat:
+                graphics.DrawString("Defeat", font, Brushes.DarkRed, gameFieldWidth / 2, gameFieldHeight / 2, format);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public void Update()
@@ -55,7 +66,7 @@ internal class Game
 
         foreach (Circle circle in circles)
         {
-            circle.Update();
+            circle.Update(GameMode);
             TotalArea += circle.Area;
             TotalImpulse += circle.ImpulseX;
             TotalImpulse += circle.ImpulseY;
@@ -80,13 +91,13 @@ internal class Game
             if (circles[i] == player)
             {
                 if (player.Area >= TotalArea / 2)
-                    drawMessageTextAction = DrawWinningText;
+                    gameState = GameState.Victory;
                 else
-                    drawMessageTextAction = DrawEmptyText;
-                
+                    gameState = GameState.Play;
+
                 continue;
             }
-            
+
             if (circles[i].Area <= player.Area)
                 circles[i].brush = Brushes.Blue;
             else
@@ -112,7 +123,7 @@ internal class Game
             circles.Remove(smallerCircle);
 
             if (smallerCircle == player)
-                drawMessageTextAction = DrawLosingText;
+                gameState = GameState.Defeat;
             return;
         }
 
@@ -128,29 +139,12 @@ internal class Game
             (int)(impulseYStart - smallerCircle.ImpulseY));
     }
 
-    public void SetGameModeAllCircles(GameMode gameMode)
-    {
-        GameMode = gameMode;
-
-        foreach (Circle circle in circles)
-            SetGameMode(gameMode, circle);
-    }
-
-    private void SetGameMode(GameMode gameMode, Circle circle)
-    {
-        switch (gameMode)
-        {
-            case GameMode.Reflection:
-                circle.BehaviorAtBorder = circle.ReflectionBehavior;
-                break;
-            case GameMode.Teleportation:
-                circle.BehaviorAtBorder = circle.TeleportationBehavior;
-                break;
-        }
-    }
 
     public void PlayerJetMovement(int mouseX, int mouseY)
     {
+        if (gameState == GameState.Defeat)
+            return;
+
         double angle = Math.Atan((player.Y - mouseY) / (player.X - mouseX));
 
         if (player.X - mouseX >= 0)
@@ -163,8 +157,7 @@ internal class Game
         player.RemoveArea(createdCircle.Area);
 
         createdCircle.X += Math.Cos(angle) * (player.Radius + createdCircle.Radius);
-        createdCircle.Y += Math.Sin(angle) * (player.Radius + createdCircle.Radius);
-        SetGameMode(GameMode, createdCircle);
+        createdCircle.Y += Math.Sin(angle) * (player.Radius + createdCircle.Radius); ;
 
         player.AddImpulse(-(int)createdCircle.ImpulseX, -(int)createdCircle.ImpulseY);
 
@@ -184,7 +177,7 @@ internal class Game
             circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(20, 30),
                 random.Next(-1, 2), random.Next(-1, 2), gameFieldWidth, gameFieldHeight));
 
-        SetGameModeAllCircles(GameMode);
+        gameState = GameState.Play;
     }
 
     public void StartStressGame()
@@ -199,7 +192,7 @@ internal class Game
             circles.Add(new Circle(random.Next(0, gameFieldWidth), random.Next(0, gameFieldHeight), random.Next(1, 2),
                 random.Next(-1, 2), random.Next(-1, 2), gameFieldWidth, gameFieldHeight));
 
-        SetGameModeAllCircles(GameMode);
+        gameState = GameState.Play;
     }
 
     public void StartCheckCollisionGame()
@@ -215,21 +208,6 @@ internal class Game
             new (gameFieldWidth * 2 / 3, gameFieldHeight / 2, 215, -10, 0, gameFieldWidth, gameFieldHeight)
         };
 
-        SetGameModeAllCircles(GameMode);
-    }
-
-    private void DrawWinningText(Graphics graphics)
-    {
-        graphics.DrawString("Victory", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2, format);
-    }
-
-    private void DrawLosingText(Graphics graphics)
-    {
-        graphics.DrawString("Defeat", font, Brushes.DarkRed, gameFieldWidth / 2, gameFieldHeight / 2, format);
-    }
-
-    private void DrawEmptyText(Graphics graphics)
-    {
-        graphics.DrawString(" ", font, Brushes.Red, gameFieldWidth / 2, gameFieldHeight / 2, format);
+        gameState = GameState.Play;
     }
 }

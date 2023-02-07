@@ -20,20 +20,20 @@ public partial class MainForm : Form
     private void timer_Tick(object sender, EventArgs e)
     {
         game.Update();
-        totalAreaLabel.Text = "Total area: " + (int)game.TotalArea;
-        totalImpulseLabel.Text = "Total Impulse " + (int)game.TotalImpulse;
+        totalAreaLabel.Text = "Total area: " + game.TotalArea;
+        totalImpulseLabel.Text = "Total Impulse " + game.TotalImpulse;
         Refresh();
     }
 
     private void reflectionToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.SetGameModeAllCircles(GameMode.Reflection);
+        game.GameMode = GameMode.Reflection;
         GameModeLabel.Text = GameMode.Reflection.ToString();
     }
 
     private void teleportationToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        game.SetGameModeAllCircles(GameMode.Teleportation);
+        game.GameMode=GameMode.Teleportation;
         GameModeLabel.Text = GameMode.Teleportation.ToString();
     }
 
