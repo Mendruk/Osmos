@@ -12,10 +12,9 @@ internal class Circle
 
     private readonly int gameFiledWidth;
     private readonly int gameFiledHeight;
-
-    public double Area => Math.PI * Math.Pow(Radius, 2);
     public double ImpulseX => VelocityX * Area;
     public double ImpulseY => VelocityY * Area;
+    public double Area => Math.PI * Math.Pow(Radius, 2);
 
     public Circle(int x, int y, double radius, double velocityX, double velocityY, int gameFieldWidth,
         int gameFieldHeight)
@@ -28,7 +27,6 @@ internal class Circle
         Radius = radius;
         VelocityX = velocityX;
         VelocityY = velocityY;
-
     }
 
     public void Draw(Graphics graphics, Brush brush)

@@ -20,6 +20,8 @@ internal class Game
     private readonly int divisionFactor = 10;
     private readonly int gameFieldWidth;
     private readonly int gameFieldHeight;
+    private readonly int numberOfSection = 15;
+    private readonly List<Circle>[,] rectangles;
 
     public Game(int gameFieldWidth, int gameFieldHeight)
     {
@@ -29,6 +31,11 @@ internal class Game
         StartStandardGame();
 
         format.Alignment = StringAlignment.Center;
+
+        rectangles = new List<Circle>[numberOfSection, numberOfSection];
+        for (int i = 0; i < numberOfSection; i++)
+            for (int j = 0; j < numberOfSection; j++)
+                rectangles[i, j] = new List<Circle>();
     }
 
     public void Draw(Graphics graphics)
@@ -84,38 +91,12 @@ internal class Game
             TotalImpulse += circle.ImpulseY;
         }
 
-        for (int i = 0; i < circles.Count; i++)
-        {
-            for (int j = i + 1; j < circles.Count; j++)
-            {
-                if (circles[i].GetDistanceToCircle(circles[j]) >= circles[i].Radius + circles[j].Radius)
-                    continue;
+        CollisionDetect();
 
-                //distance between centers of circles
-                double distance = circles[i].GetDistanceToCircle(circles[j]);
-
-                if (circles[j].Radius <= circles[i].Radius)
-                    MergeCircles(circles[j], circles[i], distance);
-                else
-                    MergeCircles(circles[i], circles[j], distance);
-            }
-
-            if (circles[i] == player)
-            {
-                if (player.Area >= TotalArea / 2)
-                    gameState = GameState.Victory;
-                else
-                    gameState = GameState.Play;
-            }
-        }
+        if (player.Area >= TotalArea / 2)
+            gameState = GameState.Victory;
     }
 
-    /// <summary>
-    /// Merging two circles
-    /// </summary>
-    /// <param name="smallerCircle"> Smaller circle</param>
-    /// <param name="largerCircle">Larger circle</param>
-    /// <param name="distance">Distance between smaller circles and larger circles centers </param>
     private void MergeCircles(Circle smallerCircle, Circle largerCircle, double distance)
     {
         double areaSmallerCircleStart = smallerCircle.Area;
@@ -153,7 +134,6 @@ internal class Game
                                  largerCircle.Area;
     }
 
-
     public void PlayerJetMovement(int mouseX, int mouseY)
     {
         if (gameState == GameState.Defeat)
@@ -181,6 +161,60 @@ internal class Game
                            player.Area;
 
         circles.Add(createdCircle);
+    }
+
+    //rename
+    private void CollisionDetect()
+    {
+        int delta;
+
+        if (gameFieldHeight <= gameFieldWidth)
+            delta = gameFieldWidth / numberOfSection;
+        else
+            delta = gameFieldHeight / numberOfSection;
+
+        foreach (Circle circle in circles)
+        {
+            int pointNumber = (int)(circle.Radius * Math.PI * 2 / delta + 1) * 2;
+
+            for (int i = 0; i < pointNumber; i++)
+            {
+                int pointX = (int)(circle.X + circle.Radius * Math.Cos(i * 2 * Math.PI / pointNumber));
+                int pointY = (int)(circle.Y + circle.Radius * Math.Sin(i * 2 * Math.PI / pointNumber));
+
+                if (pointX < 0 || pointX >= gameFieldWidth ||
+                    pointY < 0 || pointY >= gameFieldHeight)
+                    continue;
+
+                rectangles[pointX / delta, pointY / delta].Add(circle);
+            }
+        }
+
+        for (int i = 0; i < numberOfSection; i++)
+            for (int j = 0; j < numberOfSection; j++)
+                rectangles[i, j] = rectangles[i, j].Distinct().ToList();
+
+        foreach (List<Circle> rectangle in rectangles)
+        {
+            for (int i = 0; i < rectangle.Count; i++)
+                for (int j = i + 1; j < rectangle.Count; j++)
+                {
+                    if (rectangle[i].GetDistanceToCircle(rectangle[j]) >= rectangle[i].Radius + rectangle[j].Radius)
+                        continue;
+
+                    //distance between centers of circles
+                    double distance = rectangle[i].GetDistanceToCircle(rectangle[j]);
+
+                    if (rectangle[j].Radius <= rectangle[i].Radius)
+                        MergeCircles(rectangle[j], rectangle[i], distance);
+                    else
+                        MergeCircles(rectangle[i], rectangle[j], distance);
+                }
+        }
+
+        for (int i = 0; i < numberOfSection; i++)
+        for (int j = 0; j < numberOfSection; j++)
+            rectangles[i, j].Clear();
     }
 
     public void StartStandardGame()

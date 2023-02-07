@@ -94,14 +94,14 @@
             // reflectionToolStripMenuItem
             // 
             this.reflectionToolStripMenuItem.Name = "reflectionToolStripMenuItem";
-            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.reflectionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.reflectionToolStripMenuItem.Text = "Reflection";
             this.reflectionToolStripMenuItem.Click += new System.EventHandler(this.reflectionToolStripMenuItem_Click);
             // 
             // teleportationToolStripMenuItem
             // 
             this.teleportationToolStripMenuItem.Name = "teleportationToolStripMenuItem";
-            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.teleportationToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.teleportationToolStripMenuItem.Text = "Teleportation";
             this.teleportationToolStripMenuItem.Click += new System.EventHandler(this.teleportationToolStripMenuItem_Click);
             // 
@@ -189,7 +189,7 @@
             this.pictureGameField.Location = new System.Drawing.Point(0, 31);
             this.pictureGameField.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pictureGameField.Name = "pictureGameField";
-            this.pictureGameField.Size = new System.Drawing.Size(1352, 928);
+            this.pictureGameField.Size = new System.Drawing.Size(1350, 930);
             this.pictureGameField.TabIndex = 1;
             this.pictureGameField.TabStop = false;
             this.pictureGameField.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureGameField_Paint);
