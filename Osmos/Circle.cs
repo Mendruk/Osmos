@@ -4,15 +4,14 @@ namespace Osmos;
 
 internal class Circle
 {
-    public Brush brush = Brushes.Blue;
     public double X;
     public double Y;
     public double Radius;
     public double VelocityX;
     public double VelocityY;
 
-    protected readonly int gameFiledWidth;
-    protected readonly int gameFiledHeight;
+    private readonly int gameFiledWidth;
+    private readonly int gameFiledHeight;
 
     public double Area => Math.PI * Math.Pow(Radius, 2);
     public double ImpulseX => VelocityX * Area;
@@ -32,7 +31,7 @@ internal class Circle
 
     }
 
-    public void Draw(Graphics graphics)
+    public void Draw(Graphics graphics, Brush brush)
     {
         graphics.FillEllipse(brush, (int)X - (int)Radius, (int)Y - (int)Radius, (int)Radius * 2, (int)Radius * 2);
     }

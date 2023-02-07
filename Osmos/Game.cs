@@ -34,7 +34,18 @@ internal class Game
     public void Draw(Graphics graphics)
     {
         foreach (Circle circle in circles)
-            circle.Draw(graphics);
+        {
+            if (circle == player)
+            {
+                circle.Draw(graphics, Brushes.Green);
+                continue;
+            }
+
+            if (circle.Area <= player.Area)
+                circle.Draw(graphics,Brushes.Blue);
+            else
+                circle.Draw(graphics,Brushes.Red);
+        }
 
         switch (gameState)
         {
@@ -94,14 +105,7 @@ internal class Game
                     gameState = GameState.Victory;
                 else
                     gameState = GameState.Play;
-
-                continue;
             }
-
-            if (circles[i].Area <= player.Area)
-                circles[i].brush = Brushes.Blue;
-            else
-                circles[i].brush = Brushes.Red;
         }
     }
 
@@ -166,11 +170,7 @@ internal class Game
 
     public void StartStandardGame()
     {
-        player = new Circle(gameFieldWidth / 2, gameFieldHeight / 2, 40, 0, 0, gameFieldWidth, gameFieldHeight)
-        {
-            brush = Brushes.Green
-        };
-
+        player = new Circle(gameFieldWidth / 2, gameFieldHeight / 2, 40, 0, 0, gameFieldWidth, gameFieldHeight);
         circles = new List<Circle> { player };
 
         for (int i = 0; i <= 20; i++)
@@ -182,10 +182,7 @@ internal class Game
 
     public void StartStressGame()
     {
-        player = new Circle(gameFieldWidth / 2, gameFieldHeight / 2, 5, 0, 0, gameFieldWidth, gameFieldHeight)
-        {
-            brush = Brushes.Green
-        };
+        player = new Circle(gameFieldWidth / 2, gameFieldHeight / 2, 5, 0, 0, gameFieldWidth, gameFieldHeight);
         circles = new List<Circle> { player };
 
         for (int i = 0; i <= 30000; i++)
@@ -197,11 +194,7 @@ internal class Game
 
     public void StartCheckCollisionGame()
     {
-        player = new Circle(gameFieldWidth / 3, gameFieldHeight / 2, 215, 10, 0, gameFieldWidth, gameFieldHeight)
-        {
-            brush = Brushes.Green
-        };
-
+        player = new Circle(gameFieldWidth / 3, gameFieldHeight / 2, 215, 10, 0, gameFieldWidth, gameFieldHeight);
         circles = new List<Circle>
         {
             player,
