@@ -17,7 +17,7 @@ internal class Circle
     public double ImpulseX => VelocityX * Area;
     public double ImpulseY => VelocityY * Area;
 
-    public Circle(int x, int y, int radius, double velocityX, double velocityY, int gameFieldWidth,
+    public Circle(int x, int y, double radius, double velocityX, double velocityY, int gameFieldWidth,
         int gameFieldHeight)
     {
         X = x;
@@ -62,12 +62,6 @@ internal class Circle
     public void RemoveArea(double deltaArea)
     {
         Radius = Math.Sqrt(Math.Pow(Radius, 2) - deltaArea / Math.PI);
-    }
-
-    public void AddImpulse(int impulseX, int impulseY)
-    {
-        VelocityX = (ImpulseX + impulseX) / Area;
-        VelocityY = (ImpulseY + impulseY) / Area;
     }
 
     public double GetDistanceToCircle(Circle circle)

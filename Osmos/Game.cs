@@ -42,9 +42,9 @@ internal class Game
             }
 
             if (circle.Area <= player.Area)
-                circle.Draw(graphics,Brushes.Blue);
+                circle.Draw(graphics, Brushes.Blue);
             else
-                circle.Draw(graphics,Brushes.Red);
+                circle.Draw(graphics, Brushes.Red);
         }
 
         switch (gameState)
@@ -52,7 +52,8 @@ internal class Game
             case GameState.Play:
                 break;
             case GameState.Victory:
-                graphics.DrawString("Victory", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2, format);
+                graphics.DrawString("Victory", font, Brushes.LawnGreen, gameFieldWidth / 2, gameFieldHeight / 2,
+                    format);
                 break;
             case GameState.Defeat:
                 graphics.DrawString("Defeat", font, Brushes.DarkRed, gameFieldWidth / 2, gameFieldHeight / 2, format);
@@ -117,13 +118,18 @@ internal class Game
     /// <param name="distance">Distance between smaller circles and larger circles centers </param>
     private void MergeCircles(Circle smallerCircle, Circle largerCircle, double distance)
     {
-        double impulseXStart = smallerCircle.ImpulseX;
-        double impulseYStart = smallerCircle.ImpulseY;
+        double areaSmallerCircleStart = smallerCircle.Area;
+        double areaLargerCircleStart = largerCircle.Area;
 
         if (distance <= largerCircle.Radius)
         {
             largerCircle.AddArea(smallerCircle.Area);
-            largerCircle.AddImpulse((int)impulseXStart, (int)impulseYStart);
+            largerCircle.VelocityX = (areaLargerCircleStart * largerCircle.VelocityX +
+                                      smallerCircle.Area * smallerCircle.VelocityX) /
+                                     largerCircle.Area;
+            largerCircle.VelocityY = (areaLargerCircleStart * largerCircle.VelocityY +
+                                      smallerCircle.Area * smallerCircle.VelocityY) /
+                                     largerCircle.Area;
             circles.Remove(smallerCircle);
 
             if (smallerCircle == player)
@@ -139,8 +145,12 @@ internal class Game
         smallerCircle.Radius = newRadius;
         largerCircle.Radius = distance - newRadius;
 
-        largerCircle.AddImpulse((int)(impulseXStart - smallerCircle.ImpulseX),
-            (int)(impulseYStart - smallerCircle.ImpulseY));
+        largerCircle.VelocityX = (areaLargerCircleStart * largerCircle.VelocityX +
+                                  (areaSmallerCircleStart - smallerCircle.Area) * smallerCircle.VelocityX) /
+                                 largerCircle.Area;
+        largerCircle.VelocityY = (areaLargerCircleStart * largerCircle.VelocityY +
+                                  (areaSmallerCircleStart - smallerCircle.Area) * smallerCircle.VelocityY) /
+                                 largerCircle.Area;
     }
 
 
@@ -158,12 +168,17 @@ internal class Game
             Math.Sin(angle) * divisionFactor, gameFieldWidth, gameFieldHeight);
 
         createdCircle.AddArea(player.Area / divisionFactor);
+
+        double playerStartArea = player.Area;
         player.RemoveArea(createdCircle.Area);
 
         createdCircle.X += Math.Cos(angle) * (player.Radius + createdCircle.Radius);
-        createdCircle.Y += Math.Sin(angle) * (player.Radius + createdCircle.Radius); ;
+        createdCircle.Y += Math.Sin(angle) * (player.Radius + createdCircle.Radius);
 
-        player.AddImpulse(-(int)createdCircle.ImpulseX, -(int)createdCircle.ImpulseY);
+        player.VelocityX = (playerStartArea * player.VelocityX - createdCircle.Area * createdCircle.VelocityX) /
+                           player.Area;
+        player.VelocityY = (playerStartArea * player.VelocityY - createdCircle.Area * createdCircle.VelocityY) /
+                           player.Area;
 
         circles.Add(createdCircle);
     }
@@ -198,7 +213,7 @@ internal class Game
         circles = new List<Circle>
         {
             player,
-            new (gameFieldWidth * 2 / 3, gameFieldHeight / 2, 215, -10, 0, gameFieldWidth, gameFieldHeight)
+            new(gameFieldWidth * 2 / 3, gameFieldHeight / 2, 215, -10, 0, gameFieldWidth, gameFieldHeight)
         };
 
         gameState = GameState.Play;
